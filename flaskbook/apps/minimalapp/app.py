@@ -1,4 +1,12 @@
-from flask import Flask, render_template, url_for, redirect, request, flash;
+from flask import (
+    Flask,
+    render_template,
+    url_for, redirect,
+    request,
+    flash,
+    make_response,
+    session
+);
 from email_validator import validate_email, EmailNotValidError;
 # from flask import current_app, g, request;
 import logging;
@@ -52,22 +60,12 @@ with app.test_request_context():
     print(url_for("show_name", name="ichiro", page="1"));
 
 
-# ctx = app.app_context();
-# ctx.push();
-
-# print(current_app.name);
-
-# g.connection = "connection";
-# print(g.connection);
-
-
-# with app.test_request_context("/users?updated=true"):
-#     print(request.args.get("updated"));
-
-
 @app.route("/contact")
 def contact():
-    return render_template("contact.html");
+    response = make_response(render_template("contact.html"));
+    response.set_cookie("flaskook key", "flaskbook value");
+    session["username"] = "ichiro";
+    return response;
 
 
 @app.route("/contact/complete", methods=["GET", "POST"])
@@ -101,13 +99,13 @@ def contact_complete():
             return redirect(url_for("contact"));
 
         # メールを送る
-        send_email(
-            email,
-            "問い合わせありがとうございました。",
-            "contact_mail",
-            username=username,
-            description=description,
-        );
+        # send_email(
+        #     email,
+        #     "問い合わせありがとうございました。",
+        #     "contact_mail",
+        #     username=username,
+        #     description=description,
+        # );
 
         flash("問い合わせ内容はメールにて送信しました。問い合わせありがとうございます。");
 
