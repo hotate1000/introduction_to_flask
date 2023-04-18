@@ -9,10 +9,17 @@ from flask import (
     url_for,
     flash,
 );
+import logging;
+from flask_debugtoolbar import DebugToolbarExtension;
+import os;
+from flask_mail import Mail, Message;
 
 
 app = Flask(__name__);
 app.config["SECRET_KEY"] = "2AZSMss3p5QPbcY2hBsJ";
+app.logger.setLevel(logging.DEBUG);
+app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False;
+toolbar = DebugToolbarExtension(app);
 
 
 @app.route("/")
@@ -52,6 +59,14 @@ def contact_complete():
         email = request.form["email"];
         description = request.form["description"];
 
+        send_email(
+            email,
+            "問い合わせありがとうございました。",
+            "contact_mail",
+            username=username,
+            description=description,
+        )
+
         is_valid = True;
 
         if not username:
@@ -75,3 +90,21 @@ def contact_complete():
 
         return redirect(url_for("contact_complete"));
     return render_template("contact_complete.html");
+
+
+app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER");
+app.config["MAIL_PORT"] = os.environ.get("MAIL_PORT");
+app.config["MAIL_USE_TLS"] = os.environ.get("MAIL_USE_TLS");
+app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME");
+app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD");
+app.config["MAIL_DEFAULT_SENDER"] = os.environ.get("MAIL_DEFAULT_SENDER");
+
+mail = Mail(app);
+
+
+# **についてのサンプルサイト(https://note.nkmk.me/python-args-kwargs-usage/)
+def send_email(to, subject, template, **kwargs):
+    msg = Message(subject, recipients=[to]);
+    msg.body = render_template(template + ".txt", **kwargs);
+    msg.html = render_template(template + ".html", **kwargs);
+    mail.send(msg);
