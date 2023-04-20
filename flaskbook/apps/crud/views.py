@@ -19,8 +19,10 @@ def index():
 @crud.route("/sql")
 def sql():
     print('sql結果の出力');
+    print('-------------');
     db.session.query(User).all();
-    db.session.query(User).first();
-    db.session.query(User).get(2);
-    db.session.query(User).count();
+    print('-------------');
+    # db.session.query(User).first();
+    # db.session.query(User).get(2);
+    # db.session.query(User).count();
     return "コンソールログに表示";
