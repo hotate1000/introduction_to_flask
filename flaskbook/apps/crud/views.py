@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template;
-# from apps.app import User, db;
+from apps.app2 import User;
+from apps.app2 import db;
 
 
 crud = Blueprint(
@@ -15,7 +16,11 @@ def index():
     return render_template("crud/index.html");
 
 
-# @crud.route("/sql")
-# def sql():
-#     db.session.query(User).all();
-#     return "コンソールログに表示";
+@crud.route("/sql")
+def sql():
+    print('sql結果の出力');
+    db.session.query(User).all();
+    db.session.query(User).first();
+    db.session.query(User).get(2);
+    db.session.query(User).count();
+    return "コンソールログに表示";
