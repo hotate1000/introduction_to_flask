@@ -129,3 +129,6 @@ dmypy.json
 .pyre/
 
 .vscode
+
+test_a.py
+test_b.py
