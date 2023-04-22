@@ -17,11 +17,11 @@ def create_app():
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         # sqlの結果をコンソールに出力
         SQLALCHEMY_ECHO=True,
-        WTF_CSRF_KEY="AuwzyszU5sugKN7KZs6f"
+        WTF_CSRF_KEY="AuwzyszU5sugKN7KZs6f",
     )
+
     csrf.init_app(app);
     db.init_app(app);
     Migrate(app, db);
     app.register_blueprint(crud_views.crud, url_prefix="/crud");
     return app;
-
