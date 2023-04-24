@@ -132,3 +132,4 @@ dmypy.json
 
 test_a.py
 test_b.py
+local.sqlite
