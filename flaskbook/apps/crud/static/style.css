@@ -1,8 +1,16 @@
 body {
-    background-color: red;
+    /* background-color: red; */
 }
 
 .crud {
     font-style: italic;
     color: blue;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #c0c0c0;
 }

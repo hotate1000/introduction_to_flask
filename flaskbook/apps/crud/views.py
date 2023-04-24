@@ -35,10 +35,35 @@ def create_user():
     if form.validate_on_submit():
         user = User(
             username=form.username.data,
-            email=form.username.data,
-            password=form.username.data,
+            email=form.email.data,
+            password=form.password.data,
         )
         db.session.add(user);
         db.session.commit();
         return redirect(url_for("crud.users"));
     return render_template("crud/create.html", form=form);
+
+
+@crud.route("/users")
+def users():
+    # usersテーブルの情報を取得する
+    users = User.query.all();
+    return render_template("crud/index.html", users=users);
+
+
+# methodsにGETとPOSTを指定する
+@crud.route("/users/<user_id>", methods=["GET", "POST"])
+def edit_user(user_id):
+    form = UserForm();
+    # ユーザーを取得する
+    user = User.query.filter_by(id=user_id).first();
+
+    if form.validate_on_submit():
+        user.username = form.username.data;
+        user.email = form.email.data;
+        user.password = form.password.data;
+        db.session.add(user);
+        db.session.commit();
+        return redirect(url_for("crud.users"));
+
+    return render_template("crud/edit.html", user=user, form=form);
