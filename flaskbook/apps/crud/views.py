@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for;
-from apps.app2 import User;
-from apps.app2 import db;
+from apps.crud.models import User;
+from apps.crud.models import db;
 from apps.crud.forms import UserForm;
+from flask_login import login_required;
 
 
 crud = Blueprint(
@@ -13,11 +14,13 @@ crud = Blueprint(
 
 
 @crud.route("/")
+@login_required
 def index():
     return render_template("crud/index.html");
 
 
 @crud.route("/sql")
+@login_required
 def sql():
     print('sql結果の出力');
     print('-------------');
@@ -30,6 +33,7 @@ def sql():
 
 
 @crud.route("/users/new", methods=["GET", "POST"])
+@login_required
 def create_user():
     form = UserForm();
     if form.validate_on_submit():
@@ -45,6 +49,7 @@ def create_user():
 
 
 @crud.route("/users")
+@login_required
 def users():
     # usersテーブルの情報を取得する
     users = User.query.all();
@@ -53,6 +58,7 @@ def users():
 
 # methodsにGETとPOSTを指定する
 @crud.route("/users/<user_id>", methods=["GET", "POST"])
+@login_required
 def edit_user(user_id):
     form = UserForm();
     # ユーザーを取得する
