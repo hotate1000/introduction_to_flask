@@ -133,3 +133,6 @@ dmypy.json
 test_a.py
 test_b.py
 local.sqlite
+images
+model_get.py
+model.pt
