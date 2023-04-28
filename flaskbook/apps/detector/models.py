@@ -14,7 +14,7 @@ class UserImage(db.Model):
 
 
 class UserImageTag(db.Model):
-    __tablename__ = 'user_image_tabs';
+    __tablename__ = 'user_image_tags';
 
     id = db.Column(db.Integer, primary_key=True);
     user_image_id = db.Column(db.String, db.ForeignKey("user_images.id"));

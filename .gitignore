@@ -136,3 +136,4 @@ local.sqlite
 images
 model_get.py
 model.pt
+model2.pt
