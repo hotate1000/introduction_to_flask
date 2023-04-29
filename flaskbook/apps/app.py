@@ -12,6 +12,7 @@ login_manager.login_message = "";
 
 
 def create_app(config_key):
+    # print(config_key); localと表示。
     app = Flask(__name__);
     app.config.from_object(config[config_key]);
     csrf.init_app(app);

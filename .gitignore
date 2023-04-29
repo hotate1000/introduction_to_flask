@@ -137,3 +137,5 @@ images
 model_get.py
 model.pt
 model2.pt
+test_invalid_file.txt
+test_valid_image.jpg
